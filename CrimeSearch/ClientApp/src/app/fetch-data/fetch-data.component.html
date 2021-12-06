@@ -1,0 +1,47 @@
+<h1 id="tableLabel">Weather forecast</h1>
+
+<label>Zip Code</label>
+<input type="text" name="zip-code" value="" [(ngModel)]="searchValue" />
+<button (click)="search()">Search</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="crimes">
+  <span>{{crimes[0].iNCIDENT_NUMBER}}</span>
+
+  <thead>
+    <tr>
+      <th>INCIDENT_NUMBER </th>
+      <th>DATE_REPORTED </th>
+      <th>DATE_OCCURED </th>
+      <th>UOR_DESC </th>
+      <th>CRIME_TYPE </th>
+      <th>NIBRS_CODE </th>
+      <th>UCR_HIERARCHY </th>
+      <th>ATT_COMP </th>
+      <th>LMPD_DIVISION </th>
+      <th>LMPD_BEAT </th>
+      <th>PREMISE_TYPE </th>
+      <th>BLOCK_ADDRESS </th>
+      <th>CITY </th>
+      <th>ZIP_CODE </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let crime of crimes">
+      <td>{{ crime.incidenT_NUMBER }}</td>
+      <td>{{ crime.datE_REPORTED }}</td>
+      <td>{{ crime.datE_OCCURED }}</td>
+      <td>{{ crime.uoR_DESC }}</td>
+      <td>{{ crime.crimE_TYPE }}</td>
+      <td>{{ crime.nibrS_CODE }}</td>
+      <td>{{ crime.ucR_HIERARCHY }}</td>
+      <td>{{ crime.atT_COMP }}</td>
+      <td>{{ crime.lmpD_DIVISION }}</td>
+      <td>{{ crime.lmpD_BEAT }}</td>
+      <td>{{ crime.premisE_TYPE }}</td>
+      <td>{{ crime.blocK_ADDRESS }}</td>
+      <td>{{ crime.city }}</td>
+      <td>{{ crime.ziP_CODE }}</td>
+
+    </tr>
+  </tbody>
+</table>

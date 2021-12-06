@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeSearch", "CrimeSearch\CrimeSearch.csproj", "{56A3E508-1B83-49EB-B506-E1A056C89116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeSearch.UnitTests", "CrimeSearch.UnitTests\CrimeSearch.UnitTests.csproj", "{5D950675-2A82-49C4-AD5F-C6DA0F07931B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56A3E508-1B83-49EB-B506-E1A056C89116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A3E508-1B83-49EB-B506-E1A056C89116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A3E508-1B83-49EB-B506-E1A056C89116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A3E508-1B83-49EB-B506-E1A056C89116}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D950675-2A82-49C4-AD5F-C6DA0F07931B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D950675-2A82-49C4-AD5F-C6DA0F07931B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D950675-2A82-49C4-AD5F-C6DA0F07931B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D950675-2A82-49C4-AD5F-C6DA0F07931B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77BD6F63-2B75-4DCE-A7C1-71090CFE188E}
+	EndGlobalSection
+EndGlobal
