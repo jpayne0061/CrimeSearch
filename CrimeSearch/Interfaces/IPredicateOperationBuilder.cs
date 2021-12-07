@@ -5,6 +5,6 @@ namespace CrimeSearch.Interfaces
 {
     public interface IPredicateOperationBuilder
     {
-        List<PredicateOperation> BuildPredicateOperations(IEnumerable<string> predicates);
+        List<PredicateOperation> BuildPredicateOperations(IEnumerable<SearchParameter> predicates);
     }
 }

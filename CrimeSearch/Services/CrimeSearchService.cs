@@ -3,7 +3,7 @@ using CrimeSearch.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CrimeSearch.Services
@@ -11,37 +11,32 @@ namespace CrimeSearch.Services
     public class CrimeSearchService
     {
         private readonly IMongoCollection<CrimeInstance> _crimeCollection;
-        private readonly PredicateOperationBuilder predicateOperationBuilder;
+        private readonly IPredicateOperationBuilder _predicateOperationBuilder;
+        private readonly ExpressionBuilder _expressionBuilder;
 
-        public CrimeSearchService(DBSettings dbSettings, IPredicateOperationBuilder predicateOperationBuilder)
+        public CrimeSearchService(IPredicateOperationBuilder predicateOperationBuilder, ExpressionBuilder funcBuilder, IMongoCollection<CrimeInstance> crimeCollection)
         {
-            var mongoClient = new MongoClient(
-                dbSettings.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(
-                dbSettings.DatabaseName);
-
-            _crimeCollection = mongoDatabase.GetCollection<CrimeInstance>(
-                dbSettings.CollectionName);
+            _crimeCollection = crimeCollection;
+            _predicateOperationBuilder = predicateOperationBuilder;
+            _expressionBuilder = funcBuilder;
         }
 
-        public async Task<List<CrimeInstance>> GetAsync() =>
-            await _crimeCollection.Find(_ => true).ToListAsync();
-
-        public async Task<CrimeInstance?> GetAsync(string id) =>
-            await _crimeCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-        public async Task<List<CrimeInstance>> GetAsyncByZipCode(string zipCode) =>
-                await _crimeCollection.Find(x => x.ZIP_CODE == zipCode).ToListAsync();
-
-        public async Task<List<CrimeInstance>> GetByParameters(List<string> predicates)
+        public async Task<List<CrimeInstance>> GetByParameters(List<SearchParameter> predicates)
         {
-            List<PredicateOperation> predicateOperations = predicateOperationBuilder.BuildPredicateOperations(predicates);
+            List<PredicateOperation> predicateOperations = _predicateOperationBuilder.BuildPredicateOperations(predicates);
 
-            _crimeCollection.Find()
+            Expression<Func<CrimeInstance, bool>> expression = _expressionBuilder.BuildExpression<CrimeInstance>(predicateOperations);
 
-            _crimeCollection.Find(x => x.DATE_REPORTED > new DateTime()).Filter
+            var crimes =  await _crimeCollection.Find(expression).Limit(1000).ToListAsync();
 
+            return crimes;
+        }
+
+        public async Task<List<CrimeInstance>> GetTopFive()
+        {
+            var crimes = await _crimeCollection.Find(x => true).Limit(5).ToListAsync();
+
+            return crimes;
         }
 
     }

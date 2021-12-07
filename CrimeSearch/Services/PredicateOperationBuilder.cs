@@ -1,59 +1,32 @@
 ﻿using CrimeSearch.Interfaces;
 using CrimeSearch.Models;
-using CrimeSearch.Statics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CrimeSearch.Services
 {
     public class PredicateOperationBuilder : IPredicateOperationBuilder
     {
-
-        /// <summary>
-        /// Parses a predicate string that looks something like this: "FIELD_NAME > FIELD_VALUE FIELD_TYPE".
-        /// </summary>
-        /// <param name="predicates">A string representation of the predicate operation</param>
-        /// <returns>Returns a predicate operation object that can be used to build mongodb queries</returns>
-        public List<PredicateOperation> BuildPredicateOperations(IEnumerable<string> predicates)
+        public List<PredicateOperation> BuildPredicateOperations(IEnumerable<SearchParameter> predicates)
         {
-            var operatorToDelegate = new Dictionary<string, Func<IComparable, object, bool>>
+            var operatorToDelegate = new Dictionary<string, ExpressionType>
             {
-                { ">",         ComparingDelegates.IsMoreThan },
-                { "<",         ComparingDelegates.IsLessThan},
-                { "=",         ComparingDelegates.IsEqualTo},
-                { ">=",        ComparingDelegates.MoreThanOrEqualTo},
-                { "<=",        ComparingDelegates.LessThanOrEqualTo},
-                { "!=",        ComparingDelegates.NotEqualTo},
-                { "contains",  ComparingDelegates.Contains},
+                { ">",         ExpressionType.GreaterThan },
+                { "<",         ExpressionType.LessThan},
+                { "=",         ExpressionType.Equal},
+                { ">=",        ExpressionType.GreaterThanOrEqual},
+                { "<=",        ExpressionType.LessThanOrEqual},
+                { "!=",        ExpressionType.NotEqual}
             };
 
-            var predicateOperations = new List<PredicateOperation>();
-
-            foreach (var predicate in predicates)
-            {
-                //string predicate representation
-                //FIELD_NAME operator FIELD_VALUE FIELD_TYPE
-                //    0          1        2           3  
-
-                List<string> predicateOperatorParts = predicate.Split(' ').ToList();
-
-                
-                string fieldName  =  predicateOperatorParts[0]; 
-                string operation  =  predicateOperatorParts[1];
-                string fieldValue =  predicateOperatorParts[2];
-                string fieldType  =  predicateOperatorParts[3];
-
-                var predicateOperation       = new PredicateOperation();
-                predicateOperation.Delegate  = operatorToDelegate[operation];
-                predicateOperation.Operator  = operation;
-                predicateOperation.Value     = ConvertToType(fieldType, fieldValue, fieldName);
-                predicateOperation.FieldName = fieldName;
-
-                predicateOperations.Add(predicateOperation);
-            }
-
-            return predicateOperations;
+            return predicates.Select(x => new PredicateOperation
+                {
+                    ExpressionType = operatorToDelegate[x.SearchOperator],
+                    Value = ConvertToType(x.FieldType, x.SearchValue, x.FieldName),
+                    FieldName = x.FieldName
+                }).ToList();
         }
 
         private IComparable ConvertToType(string fieldType, string val, string fieldName)

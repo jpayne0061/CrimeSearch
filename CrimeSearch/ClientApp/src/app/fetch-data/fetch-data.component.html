@@ -1,12 +1,48 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Crime Search</h1>
 
-<label>Zip Code</label>
-<input type="text" name="zip-code" value="" [(ngModel)]="searchValue" />
-<button (click)="search()">Search</button>
+
+<div style="display: inline-block">
+  <form class="form-style-9">
+    <div *ngFor="let searchParam of searchParameters">
+      <div class="padding-10px min-width-form inline">
+        <strong>{{searchParam.displayName}}</strong>
+      </div>
+
+      <div class="padding-10px min-width-form inline">
+        <select name="x" [(ngModel)]="searchParam.searchOperator">
+          <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" value="=">=</option>
+          <option value=">">></option>
+          <option value=">=">>=</option>
+          <option value="<"><</option>
+          <option value="<="><=</option>
+          <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" value="!=">!=</option>
+        </select>
+      </div>
+
+
+      <div class="padding-10px min-width-form inline" *ngIf="searchParam.fieldName.indexOf('datE') > -1" style="display: inline-block">
+        <input type="datetime-local" id="start" name="trip-start"
+               value="any date"
+               min="2021-01-01" max="2021-12-31" [(ngModel)]="searchParam.searchValue">
+      </div>
+
+      <div class="padding-10px min-width-form inline" *ngIf="searchParam.fieldName.indexOf('datE') == -1" style="display: inline-block">
+        <input name="x" type="text" placeholder="any value" [(ngModel)]="searchParam.searchValue" />
+      </div>
+    </div>
+  </form>
+
+  <button (click)="search()" style="float: right; margin-top: 30px" class="button">Search</button>
+</div>
+
+
+<div style="margin-top: 30px"><i>limited to 1000 rows</i></div>
+
+<div *ngIf="!crimes">
+  <h2 style="padding: 20px"><i>Loading...</i></h2>
+</div>
 
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="crimes">
-  <span>{{crimes[0].iNCIDENT_NUMBER}}</span>
-
   <thead>
     <tr>
       <th>INCIDENT_NUMBER </th>

@@ -1,3 +1,4 @@
+using CrimeSearch.Interfaces;
 using CrimeSearch.Models;
 using CrimeSearch.Services;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace CrimeSearch
 {
@@ -34,8 +36,17 @@ namespace CrimeSearch
             dbSettings.CollectionName = Configuration["DBSettings:CollectionName"];
             dbSettings.ConnectionString = Configuration["DBSettings:ConnectionString"];
 
+            var mongoClient = new MongoClient(dbSettings.ConnectionString);
+
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.DatabaseName);
+
+            IMongoCollection<CrimeInstance> crimeCollection = mongoDatabase.GetCollection<CrimeInstance>(dbSettings.CollectionName);
+
+            services.AddSingleton(crimeCollection);
             services.AddSingleton(dbSettings);
             services.AddTransient<CrimeSearchService, CrimeSearchService>();
+            services.AddTransient<IPredicateOperationBuilder, PredicateOperationBuilder>();
+            services.AddTransient<ExpressionBuilder, ExpressionBuilder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
