@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 namespace CrimeSearch.UnitTests
 {
 
-    public class CrimeSearchService_Tests
+    public class ExpressionBuilderTests
     {
         [Test]
         public void ExpressionBuilder_Filter_String_Success()

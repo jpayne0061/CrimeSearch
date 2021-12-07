@@ -11,14 +11,14 @@ namespace CrimeSearch.Services
     public class CrimeSearchService
     {
         private readonly IMongoCollection<CrimeInstance> _crimeCollection;
-        private readonly IPredicateOperationBuilder _predicateOperationBuilder;
-        private readonly ExpressionBuilder _expressionBuilder;
+        private readonly IPredicateOperationBuilder      _predicateOperationBuilder;
+        private readonly ExpressionBuilder               _expressionBuilder;
 
         public CrimeSearchService(IPredicateOperationBuilder predicateOperationBuilder, ExpressionBuilder funcBuilder, IMongoCollection<CrimeInstance> crimeCollection)
         {
-            _crimeCollection = crimeCollection;
+            _crimeCollection =           crimeCollection;
             _predicateOperationBuilder = predicateOperationBuilder;
-            _expressionBuilder = funcBuilder;
+            _expressionBuilder =         funcBuilder;
         }
 
         public async Task<List<CrimeInstance>> GetByParameters(List<SearchParameter> predicates)

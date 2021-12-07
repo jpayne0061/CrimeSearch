@@ -6,6 +6,8 @@
 #appsettings
 appsettings.json
 
+ServiceDependencies/
+
 # User-specific files
 *.suo
 *.user
