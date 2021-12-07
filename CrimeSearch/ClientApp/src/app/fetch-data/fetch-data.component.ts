@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SearchParameter } from '../../models/searchParameter';
+import { CrimeInstance } from '../../models/crimeInstance';
 
 @Component({
   selector: 'app-fetch-data',
@@ -10,11 +11,11 @@ export class FetchDataComponent {
   public crimes: CrimeInstance[];
 
   public searchParameters: SearchParameter[] = [
-    new SearchParameter("datE_REPORTED", "", "", "datetime", "Date Time Reported"),
-    new SearchParameter("datE_OCCURED", "", "", "datetime", "Date Time Occurred"),
-    new SearchParameter("uoR_DESC", "", "", "string", "UOR Description"),
-    new SearchParameter("crimE_TYPE", "", "", "string", "Crime Type"),
-    new SearchParameter("ziP_CODE", "", "", "string", "Zip Code")
+    new SearchParameter("datE_OCCURED", ">", "", "datetime", "Date Time Occurred"),
+    new SearchParameter("datE_REPORTED", ">", "", "datetime", "Date Time Reported"),
+    new SearchParameter("uoR_DESC", "=", "", "string", "UOR Description"),
+    new SearchParameter("crimE_TYPE", "=", "", "string", "Crime Type"),
+    new SearchParameter("ziP_CODE", "=", "", "string", "Zip Code")
   ];
 
   private baseUrl;
@@ -25,7 +26,7 @@ export class FetchDataComponent {
   }
 
   public search() {
-    this.crimes = null;
+    
 
     let search: SearchParameter[] = [];
 
@@ -38,6 +39,8 @@ export class FetchDataComponent {
         alert("operator is missing for " + this.searchParameters[i].displayName + ". Please select >, <, =, or != from the dropdown.");
         return;
       }
+
+      this.crimes = null;
 
       search.push(this.searchParameters[i]);
     }
@@ -57,22 +60,3 @@ export class FetchDataComponent {
   }
 
 }
-
-export class CrimeInstance {
-  public incidenT_NUMBER: string;
-  public datE_REPORTED: Date;
-  public datE_OCCURED: Date;
-  public uoR_DESC: string;
-  public crimE_TYPE: string;
-  public nibrS_CODE: string;
-  public ucR_HIERARCHY: string;
-  public atT_COMP: string;
-  public lmpD_DIVISION: string;
-  public lmpD_BEAT: string;
-  public premisE_TYPE: string;
-  public blocK_ADDRESS: string;
-  public city: string;
-  public ziP_CODE: string;
-}
-
-

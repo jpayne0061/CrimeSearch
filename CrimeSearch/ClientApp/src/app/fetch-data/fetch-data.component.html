@@ -2,41 +2,43 @@
 
 
 <div style="display: inline-block">
-  <form class="form-style-9">
-    <div *ngFor="let searchParam of searchParameters">
-      <div class="padding-10px min-width-form inline">
-        <strong>{{searchParam.displayName}}</strong>
-      </div>
-
-      <div class="padding-10px min-width-form inline">
-        <select name="x" [(ngModel)]="searchParam.searchOperator">
-          <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" value="=">=</option>
-          <option value=">">></option>
-          <option value=">=">>=</option>
-          <option value="<"><</option>
-          <option value="<="><=</option>
-          <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" value="!=">!=</option>
-        </select>
-      </div>
-
-
-      <div class="padding-10px min-width-form inline" *ngIf="searchParam.fieldName.indexOf('datE') > -1" style="display: inline-block">
-        <input type="datetime-local" id="start" name="trip-start"
-               value="any date"
-               min="2021-01-01" max="2021-12-31" [(ngModel)]="searchParam.searchValue">
-      </div>
-
-      <div class="padding-10px min-width-form inline" *ngIf="searchParam.fieldName.indexOf('datE') == -1" style="display: inline-block">
-        <input name="x" type="text" placeholder="any value" [(ngModel)]="searchParam.searchValue" />
-      </div>
+  <form *ngFor="let searchParam of searchParameters" class="form-inline">
+    <div class="form-group" style="display: inline-block; min-width: 175px">
+      <div><b>{{searchParam.displayName}}</b></div>
     </div>
+
+    <div class="form-group">
+      <select class="form-control" name="operator-selection" [(ngModel)]="searchParam.searchOperator">
+        <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" [value]="'='">=</option>
+        <option [value]="'>'">></option>
+        <option [value]="'>='">>=</option>
+        <option [value]="'<'"><</option>
+        <option [value]="'<='"><=</option>
+        <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" [value]="'!='">!=</option>
+      </select>
+    </div>
+
+    <div *ngIf="searchParam.fieldName.indexOf('datE') > -1" class="padding-10px inline form-group" style="display: inline-block">
+      <input  type="datetime-local" name="date"
+             value="any date"
+             min="2021-01-01" max="2021-12-31" [(ngModel)]="searchParam.searchValue" class="form-control min-width-form">
+    </div>
+
+
+    <div class="padding-10px inline form-group" *ngIf="searchParam.fieldName.indexOf('datE') == -1" style="display: inline-block">
+      <input name="x" type="text" placeholder="any value" [(ngModel)]="searchParam.searchValue" class="form-control min-width-form" />
+    </div>
+
+
+
   </form>
 
-  <button (click)="search()" style="float: right; margin-top: 30px" class="button">Search</button>
+  <button type="submit" class="btn btn-primary" (click)="search()" style="float: right; margin-top: 30px">Search</button>
+
 </div>
 
 
-<div style="margin-top: 30px"><i>limited to 1000 rows</i></div>
+<div style="margin-top: 30px"><i>search results limited to 1000 rows</i></div>
 
 <div *ngIf="!crimes">
   <h2 style="padding: 20px"><i>Loading...</i></h2>
@@ -45,20 +47,20 @@
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="crimes">
   <thead>
     <tr>
-      <th>INCIDENT_NUMBER </th>
-      <th>DATE_REPORTED </th>
-      <th>DATE_OCCURED </th>
-      <th>UOR_DESC </th>
-      <th>CRIME_TYPE </th>
-      <th>NIBRS_CODE </th>
-      <th>UCR_HIERARCHY </th>
-      <th>ATT_COMP </th>
-      <th>LMPD_DIVISION </th>
-      <th>LMPD_BEAT </th>
-      <th>PREMISE_TYPE </th>
-      <th>BLOCK_ADDRESS </th>
-      <th>CITY </th>
-      <th>ZIP_CODE </th>
+      <th>INCIDENT NUMBER </th>
+      <th>DATE REPORTED </th>
+      <th>DATE OCCURED </th>
+      <th>UOR DESC </th>
+      <th>CRIME TYPE </th>
+      <th>NIBRS CODE </th>
+      <th>UCR HIERARCHY </th>
+      <th>ATT COMP </th>
+      <th>LMPD DIVISION </th>
+      <th>LMPD BEAT </th>
+      <th>PREMISE TYPE </th>
+      <th>BLOCK ADDRESS </th>
+      <th>CITY</th>
+      <th>ZIP CODE </th>
     </tr>
   </thead>
   <tbody>

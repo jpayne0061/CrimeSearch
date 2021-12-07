@@ -1,6 +1,5 @@
 using CrimeSearch.Models;
 using CrimeSearch.Services;
-using CrimeSearch.Statics;
 using MongoDB.Driver;
 using NUnit.Framework;
 using System;

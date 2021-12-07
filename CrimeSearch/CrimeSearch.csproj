@@ -25,10 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\models\crimeInstance.ts" />
     <None Remove="ClientApp\src\models\searchParameter.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\models\crimeInstance.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\searchParameter.ts" />
   </ItemGroup>
 

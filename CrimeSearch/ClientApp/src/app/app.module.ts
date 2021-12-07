@@ -19,6 +19,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
+      { path: '**', component: FetchDataComponent },
       { path: 'crime', component: FetchDataComponent },
     ])
   ],

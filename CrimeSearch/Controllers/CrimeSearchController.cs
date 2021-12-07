@@ -11,7 +11,6 @@ namespace CrimeSearch.Controllers
     [Route("[controller]")]
     public class CrimeSearchController : ControllerBase
     {
-        private readonly ILogger<CrimeSearchController> _logger;
         private readonly CrimeSearchService _crimeSearch;
 
         public CrimeSearchController(CrimeSearchService crimeSearch)
