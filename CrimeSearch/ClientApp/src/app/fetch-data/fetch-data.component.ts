@@ -40,11 +40,10 @@ export class FetchDataComponent {
         return;
       }
 
-      this.crimes = null;
-
       search.push(this.searchParameters[i]);
     }
 
+    this.crimes = null;
 
     this.http.post<CrimeInstance[]>(this.baseUrl + 'crimesearch', search).subscribe(result => {
       console.log("crimes: ", result);
