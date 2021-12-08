@@ -9,12 +9,7 @@
 
     <div class="form-group">
       <select class="form-control" name="operator-selection" [(ngModel)]="searchParam.searchOperator">
-        <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" [value]="'='">=</option>
-        <option [value]="'>'">></option>
-        <option [value]="'>='">>=</option>
-        <option [value]="'<'"><</option>
-        <option [value]="'<='"><=</option>
-        <option *ngIf="searchParam.fieldName.indexOf('datE') == -1" [value]="'!='">!=</option>
+        <option *ngFor="let operator of searchParam.availableOperators" [value]="operator">{{operator}}</option>
       </select>
     </div>
 
@@ -33,7 +28,7 @@
 
   </form>
 
-  <button type="submit" class="btn btn-primary" (click)="search()" style="float: right; margin-top: 30px">Search</button>
+  <button type="submit" class="btn btn-primary" (click)="search()" style="float: right; margin-top: 30px; background-color: #209CEE">Search</button>
 
 </div>
 

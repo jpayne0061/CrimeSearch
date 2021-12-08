@@ -11,11 +11,11 @@ export class FetchDataComponent {
   public crimes: CrimeInstance[];
 
   public searchParameters: SearchParameter[] = [
-    new SearchParameter("datE_OCCURED", ">", "", "datetime", "Date Time Occurred"),
-    new SearchParameter("datE_REPORTED", ">", "", "datetime", "Date Time Reported"),
-    new SearchParameter("uoR_DESC", "=", "", "string", "UOR Description"),
-    new SearchParameter("crimE_TYPE", "=", "", "string", "Crime Type"),
-    new SearchParameter("ziP_CODE", "=", "", "string", "Zip Code")
+    new SearchParameter("datE_OCCURED", ">", "", ["<","<=", ">", ">="], "datetime", "Date Time Occurred"),
+    new SearchParameter("datE_REPORTED", ">", "", ["<", "<=", ">", ">="], "datetime", "Date Time Reported"),
+    new SearchParameter("uoR_DESC", "=", "", ["=", "!="], "string", "UOR Description"),
+    new SearchParameter("crimE_TYPE", "=", "", ["=", "!="], "string", "Crime Type"),
+    new SearchParameter("ziP_CODE", "=", "", ["=", "!="], "string", "Zip Code")
   ];
 
   private baseUrl;
