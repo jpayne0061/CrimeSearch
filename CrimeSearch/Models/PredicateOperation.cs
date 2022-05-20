@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace CrimeSearch.Models
 {
@@ -7,5 +8,6 @@ namespace CrimeSearch.Models
         public ExpressionType ExpressionType { get; set; }
         public string FieldName { get; set; }
         public object Value { get; set; }
+        public ExpressionType? AndOr { get; set; }
     }
 }

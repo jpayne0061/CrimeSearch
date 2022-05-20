@@ -1,9 +1,12 @@
 using CrimeSearch.Models;
 using CrimeSearch.Services;
 using MongoDB.Driver;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -143,5 +146,37 @@ namespace CrimeSearch.UnitTests
             Assert.AreEqual(new DateTime(2021, 3, 14), crimeResult[0].DATE_REPORTED);
             Assert.AreEqual("c", crimeResult[0].CITY);
         }
+
+        [Test]
+        public void ExpressionBuilder_Filter_With_Multiple_Predicates_Using_Dyanamic_Success()
+        {
+            string json = "[{ \"Name\": \"Bob\", \"Age\": 37 }, {\"Name\": \"Steven\", \"Age\": 45}, {\"Name\": \"Joe\", \"Age\": 99}]";
+
+            List<JObject> dynamics = JsonConvert.DeserializeObject<List<JObject>>(json);
+
+            string query = "[Name]='Bob'or[Age]>'98'";
+
+            List<PredicateOperation> predicateOperations = new List<PredicateOperation>
+            {
+                new PredicateOperation{ ExpressionType = ExpressionType.Equal, AndOr = null, FieldName = "Name", Value="Bob"},
+                new PredicateOperation{ ExpressionType = ExpressionType.GreaterThan, AndOr = ExpressionType.Or, FieldName = "Age", Value = 98L }
+            };
+            //new PredicateOperationBuilder().BuildPredicateOperationsFromQuery(query);
+
+            ExpressionBuilder expressionBuilder = new ExpressionBuilder();
+            Expression<Func<object, bool>> exp = expressionBuilder.BuildExpressionForDynamicObject_testObject<object>(predicateOperations);
+
+            //act
+            //var crimeResult = crimes.AsQueryable().Where(exp).ToList();
+
+            var result = dynamics.AsQueryable().Where(exp).ToList();
+
+            ////assert
+            //Assert.AreEqual(1, crimeResult.Count());
+            //Assert.AreEqual(new DateTime(2021, 3, 14), crimeResult[0].DATE_REPORTED);
+            //Assert.AreEqual("c", crimeResult[0].CITY);
+        }
+
+
     }
 }

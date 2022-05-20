@@ -42,39 +42,12 @@
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="crimes">
   <thead>
     <tr>
-      <th>INCIDENT NUMBER </th>
-      <th>DATE REPORTED </th>
-      <th>DATE OCCURED </th>
-      <th>UOR DESC </th>
-      <th>CRIME TYPE </th>
-      <th>NIBRS CODE </th>
-      <th>UCR HIERARCHY </th>
-      <th>ATT COMP </th>
-      <th>LMPD DIVISION </th>
-      <th>LMPD BEAT </th>
-      <th>PREMISE TYPE </th>
-      <th>BLOCK ADDRESS </th>
-      <th>CITY</th>
-      <th>ZIP CODE </th>
+      <th *ngFor="let key of objectKeys">{{key}}</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let crime of crimes">
-      <td>{{ crime.incidenT_NUMBER }}</td>
-      <td>{{ crime.datE_REPORTED }}</td>
-      <td>{{ crime.datE_OCCURED }}</td>
-      <td>{{ crime.uoR_DESC }}</td>
-      <td>{{ crime.crimE_TYPE }}</td>
-      <td>{{ crime.nibrS_CODE }}</td>
-      <td>{{ crime.ucR_HIERARCHY }}</td>
-      <td>{{ crime.atT_COMP }}</td>
-      <td>{{ crime.lmpD_DIVISION }}</td>
-      <td>{{ crime.lmpD_BEAT }}</td>
-      <td>{{ crime.premisE_TYPE }}</td>
-      <td>{{ crime.blocK_ADDRESS }}</td>
-      <td>{{ crime.city }}</td>
-      <td>{{ crime.ziP_CODE }}</td>
-
+      <td *ngFor="let key of objectKeys">{{crime[key]}}</td>  
     </tr>
   </tbody>
 </table>

@@ -2,6 +2,7 @@
 using CrimeSearch.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,19 +20,36 @@ namespace CrimeSearch.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CrimeInstance>> GetTopFive()
+        public async Task<object> GetTopFive()
         {
-            IEnumerable<CrimeInstance> crimeInstances = await _crimeSearch.GetTopFive();
+            object crimeInstances = await _crimeSearch.GetTopFive();
 
             return crimeInstances;
         }
 
         [HttpPost]
-        public async Task<IEnumerable<CrimeInstance>> Get([FromBody] List<SearchParameter> searchParameters)
+        public async Task<object> Get([FromBody] List<SearchParameter> searchParameters)
         {
-            IEnumerable<CrimeInstance> crimeInstances = await _crimeSearch.GetByParameters(searchParameters);
+            object crimeInstances = await _crimeSearch.GetByParameters(searchParameters);
 
             return crimeInstances;
         }
+
+        //[HttpGet]
+        //public async Task<IEnumerable<CrimeInstance>> Get(string args)
+        //{
+        //    //parse args
+
+
+        //    //create expession
+
+        //    //pass expression to repo?
+
+
+
+        //    IEnumerable<CrimeInstance> crimeInstances = await _crimeSearch.GetByParameters(searchParameters);
+
+        //    return crimeInstances;
+        //}
     }
 }

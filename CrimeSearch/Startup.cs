@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace CrimeSearch
 {
@@ -32,18 +34,22 @@ namespace CrimeSearch
             });
 
             var dbSettings = new DBSettings();
-            dbSettings.DatabaseName = Configuration["DBSettings:DatabaseName"];
-            dbSettings.CollectionName = Configuration["DBSettings:CollectionName"];
-            dbSettings.ConnectionString = Configuration["DBSettings:ConnectionString"];
+            dbSettings.DatabaseName = "test";
+            dbSettings.CollectionName = "CrimeInstance";
+            dbSettings.ConnectionString = "*";
 
             var mongoClient = new MongoClient(dbSettings.ConnectionString);
 
-            var mongoDatabase = mongoClient.GetDatabase(dbSettings.DatabaseName);
+            IMongoDatabase mongoDatabase = mongoClient.GetDatabase(dbSettings.DatabaseName);
 
-            IMongoCollection<CrimeInstance> crimeCollection = mongoDatabase.GetCollection<CrimeInstance>(dbSettings.CollectionName);
+            IMongoCollection<JObject> crimeCollection = mongoDatabase.GetCollection<JObject>(dbSettings.CollectionName);
+            IMongoCollection<Dictionary<string, object>> collection = mongoDatabase.GetCollection<Dictionary<string, object>>(dbSettings.CollectionName);
 
+            services.AddSingleton(mongoDatabase);
             services.AddSingleton(crimeCollection);
+            services.AddSingleton(collection);
             services.AddSingleton(dbSettings);
+            //services.AddTransient<DynamicSearchService, DynamicSearchService>();
             services.AddTransient<CrimeSearchService, CrimeSearchService>();
             services.AddTransient<IPredicateOperationBuilder, PredicateOperationBuilder>();
             services.AddTransient<ExpressionBuilder, ExpressionBuilder>();

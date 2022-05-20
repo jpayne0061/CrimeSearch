@@ -6,5 +6,6 @@
         public string SearchOperator { get; set; }
         public string SearchValue { get; set; }
         public string FieldType { get; set; }
+        public string ConjunctiveOperator { get; set; }
     }
 }

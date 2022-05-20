@@ -8,7 +8,9 @@ import { CrimeInstance } from '../../models/crimeInstance';
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
-  public crimes: CrimeInstance[];
+  public crimes: any[];
+
+  public objectKeys = [];
 
   public searchParameters: SearchParameter[] = [
     new SearchParameter("datE_OCCURED", ">", "", ["<","<=", ">", ">="], "datetime", "Date Time Occurred"),
@@ -45,14 +47,17 @@ export class FetchDataComponent {
 
     this.crimes = null;
 
-    this.http.post<CrimeInstance[]>(this.baseUrl + 'crimesearch', search).subscribe(result => {
+    this.http.post<any[]>(this.baseUrl + 'crimesearch', search).subscribe(result => {
       console.log("crimes: ", result);
       this.crimes = result;
     }, error => console.error(error));
   }
 
   public listTopFive() {
-    this.http.get<CrimeInstance[]>(this.baseUrl + 'crimesearch').subscribe(result => {
+    this.http.get<any[]>(this.baseUrl + 'crimesearch').subscribe(result => {
+      this.objectKeys = Object.keys(result[0]);
+
+      console.log("keys: ", this.objectKeys);
       console.log("crimes: ", result);
       this.crimes = result;
     }, error => alert(error));
